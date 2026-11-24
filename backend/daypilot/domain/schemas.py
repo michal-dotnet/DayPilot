@@ -10,7 +10,7 @@ from datetime import date, datetime, time
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
-from daypilot.domain.enums import AvailabilityKind, ExceptionKind, ProposalKind, TaskStatus, TaskType
+from daypilot.domain.enums import AvailabilityKind, ExceptionKind, ProposalKind, TaskStatus, TaskType, WorkStyle
 
 MAX_MINUTES = 200 * 60  # 200 שעות למשימה
 
@@ -30,6 +30,7 @@ class TaskCreate(BaseModel):
     deadline: datetime | None = None
     estimated_minutes: int | None = Field(default=None, ge=5, le=MAX_MINUTES)
     importance: int = Field(default=3, ge=1, le=5)
+    work_style: WorkStyle = WorkStyle.ASSIGNMENT
     recurrence_rule: str | None = Field(default=None, max_length=200)
     recurrence_start: date | None = None
     recurrence_end: date | None = None
@@ -66,6 +67,7 @@ class TaskDetailsUpdate(BaseModel):
     title: str | None = Field(default=None, min_length=1, max_length=200)
     description: str | None = Field(default=None, max_length=2000)
     importance: int | None = Field(default=None, ge=1, le=5)
+    work_style: WorkStyle | None = None  # משפיע רק על השיבוץ הבא, לא מזיז מפגשים
 
 
 class ProgressReport(BaseModel):
@@ -127,6 +129,7 @@ class TaskView(BaseModel):
     task_type: TaskType
     status: TaskStatus
     importance: int
+    work_style: WorkStyle = WorkStyle.ASSIGNMENT
     deadline: datetime | None
     estimated_minutes: int | None
     remaining_minutes: int | None

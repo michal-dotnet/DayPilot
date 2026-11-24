@@ -21,7 +21,7 @@ from langgraph.prebuilt import InjectedState
 from daypilot.agent.dates import parse_date, parse_local_datetime, resolve_hebrew
 from daypilot.agent.tools.common import dumps, error, safe_tool
 from daypilot.container import AppContainer
-from daypilot.domain.enums import AvailabilityKind, ExceptionKind, SessionStatus, TaskType
+from daypilot.domain.enums import AvailabilityKind, ExceptionKind, SessionStatus, TaskType, WorkStyle
 from daypilot.domain.intervals import Interval, subtract, total_minutes
 from daypilot.domain.schemas import (
     DateExceptionIn,
@@ -190,6 +190,7 @@ def build_tools(container: AppContainer) -> list[BaseTool]:
         deadline: str | None = None,
         estimated_minutes: int | None = None,
         importance: int = 3,
+        work_style: Literal["assignment", "exam"] = "assignment",
         description: str = "",
         recurrence_rule: str | None = None,
         occurrence_time: str | None = None,
@@ -200,6 +201,8 @@ def build_tools(container: AppContainer) -> list[BaseTool]:
         """Create a task. scheduled: needs deadline (ISO) and estimated_minutes. open: no deadline.
         recurring: needs recurrence_rule (RRULE like FREQ=WEEKLY;BYDAY=WE) and occurrence_time (HH:MM) + occurrence_minutes
         for a fixed event and/or prep_minutes of work before each occurrence. importance 1-5.
+        work_style (scheduled tasks): exam = studying for an exam/test/quiz (ramps up, full day right before);
+        assignment = homework, paper, project, presentation, reading or any other work (kept to as few days as possible).
         Put defaults you chose in assumptions. The task is NOT scheduled yet: call propose_schedule afterwards."""
         notes = list(assumptions or [])
         parsed_deadline = None
@@ -217,7 +220,8 @@ def build_tools(container: AppContainer) -> list[BaseTool]:
                 return error(f"invalid recurrence_rule: {exc}")
         data = TaskCreate(
             title=title, task_type=TaskType(task_type), description=description, deadline=parsed_deadline,
-            estimated_minutes=estimated_minutes, importance=importance, recurrence_rule=recurrence_rule,
+            estimated_minutes=estimated_minutes, importance=importance, work_style=WorkStyle(work_style),
+            recurrence_rule=recurrence_rule,
             occurrence_time=occ_time, occurrence_minutes=occurrence_minutes, prep_minutes=prep_minutes,
             assumptions=notes,
         )
@@ -228,12 +232,23 @@ def build_tools(container: AppContainer) -> list[BaseTool]:
     @tool
     @safe_tool
     def update_task_details(
-        user_id: UserId, task_id: int, title: str | None = None, description: str | None = None, importance: int | None = None
+        user_id: UserId,
+        task_id: int,
+        title: str | None = None,
+        description: str | None = None,
+        importance: int | None = None,
+        work_style: Literal["assignment", "exam"] | None = None,
     ) -> str:
-        """Update a task's title, description or importance (1-5). Does not change the schedule."""
+        """Update a task's title, description, importance (1-5) or work_style. Does not change the schedule:
+        a new work_style applies to the next proposal."""
         with container.unit() as svc:
             task = svc.tasks.update_details(
-                user_id, task_id, TaskDetailsUpdate(title=title, description=description, importance=importance)
+                user_id,
+                task_id,
+                TaskDetailsUpdate(
+                    title=title, description=description, importance=importance,
+                    work_style=WorkStyle(work_style) if work_style else None,
+                ),
             )
             return dumps({"ok": True, "task": svc.tasks.view(task).model_dump()})
 

@@ -1,0 +1,1076 @@
+{
+  "name": "improved",
+  "experiment": "improved-v2-ea7e8128",
+  "prompt_version": "v2",
+  "model": "gpt-6-luna",
+  "ran_at": "2026-11-24T19:10:49",
+  "scenarios": 34,
+  "scenarios_all_passed": 34,
+  "per_check_pass_rate": {
+    "asks_question": 1.0,
+    "capacity_conflict": 1.0,
+    "deadline_of": 1.0,
+    "interrupt": 1.0,
+    "interrupt_kind": 1.0,
+    "new_task_count": 1.0,
+    "no_new_task": 1.0,
+    "no_sessions_on": 1.0,
+    "no_tools": 1.0,
+    "no_write_before_approval": 1.0,
+    "planned_minutes_of": 1.0,
+    "recurring_or_question": 1.0,
+    "reply_dates_grounded": 1.0,
+    "reply_mentions_session_times": 1.0,
+    "sessions_avoid_rules": 1.0,
+    "sessions_on_date": 1.0,
+    "sessions_valid": 1.0,
+    "sessions_window": 1.0,
+    "task": 1.0,
+    "task_count_after": 1.0,
+    "task_exists": 1.0,
+    "task_status": 1.0,
+    "tool_used": 1.0,
+    "tool_used_any": 1.0
+  },
+  "per_category_pass_rate": {
+    "approval_policy": 1.0,
+    "complex": 1.0,
+    "conflicts": 1.0,
+    "extraction": 1.0,
+    "grounding": 1.0,
+    "manual_change": 1.0,
+    "missing_info": 1.0,
+    "scheduling": 1.0,
+    "scope": 1.0
+  },
+  "reply_quality_avg": 0.956,
+  "tokens": {
+    "input_tokens": 254431,
+    "output_tokens": 12753
+  },
+  "estimated_cost_usd": 0.0318,
+  "rows": [
+    {
+      "id": "complex_progress_and_move",
+      "category": "complex",
+      "scores": {
+        "interrupt": 1,
+        "task_status": 1,
+        "sessions_on_date": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "רשמתי שלמדת שעה; נשארו 7 שעות. העברתי ליום רביעי 6 שעות: 12:00–14:00, 14:30–16:30 ו־17:30–19:30. שעה נוספת לא שובצה בגלל מגבלת 6 שעות ביום. כדי להעביר גם אותה לרביעי, צריך להעלות זמנית את המגבלה ל־8 שעות. תרצי שאציע את השינוי?",
+      "error": null,
+      "judge_comment": "5",
+      "sessions": [
+        [
+          "2026-12-02T12:00",
+          "14:00"
+        ],
+        [
+          "2026-12-02T14:30",
+          "16:30"
+        ],
+        [
+          "2026-12-02T17:30",
+          "19:30"
+        ]
+      ],
+      "tools": [
+        "log_progress",
+        "propose_reschedule"
+      ]
+    },
+    {
+      "id": "complex_two_new_tasks",
+      "category": "complex",
+      "scores": {
+        "interrupt": 1,
+        "new_task_count": 1,
+        "sessions_valid": 1,
+        "reply_dates_grounded": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "שיבצתי את כל הזמן: 10 שעות למבחן ו־6 שעות לפרויקט.\n\n- **ראשון, 29.11:** מבחן 08:00–10:00, 10:30–12:30, 13:00–15:00\n- **שני, 30.11:** מבחן 08:00–10:00 ו־10:30–12:30; פרויקט 12:30–14:30\n- **שלישי, 1.12:** פרויקט 08:00–10:00 ו־10:30–12:30\n\nבשני הימים הראשונים שובצו 360 דקות — המקסימום היומי שלך. השארתי את הכותרות הכלליות ״מבחן״ ו״פרויקט״, וחשיבות ברירת המחדל היא 3 מתוך 5.",
+      "error": null,
+      "judge_comment": "5",
+      "sessions": [
+        [
+          "2026-11-29T08:00",
+          "10:00"
+        ],
+        [
+          "2026-11-29T10:30",
+          "12:30"
+        ],
+        [
+          "2026-11-29T13:00",
+          "15:00"
+        ],
+        [
+          "2026-11-30T08:00",
+          "10:00"
+        ],
+        [
+          "2026-11-30T10:30",
+          "12:30"
+        ],
+        [
+          "2026-11-30T12:30",
+          "14:30"
+        ],
+        [
+          "2026-12-01T08:00",
+          "10:00"
+        ],
+        [
+          "2026-12-01T10:30",
+          "12:30"
+        ]
+      ],
+      "tools": [
+        "create_task",
+        "create_task",
+        "propose_schedule"
+      ]
+    },
+    {
+      "id": "conflict_not_enough_time",
+      "category": "conflicts",
+      "scores": {
+        "capacity_conflict": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "יצרתי משימה בשם „לימוד למבחן” עם 15 שעות לימוד ודדליין למחר. הצעת השיבוץ לא אושרה, ולכן עדיין לא נקבעו שעות ביומן. תרצי שאנסה להציע שיבוץ לזמן שנותר היום? שימי לב שהכותרת היא כללית—אפשר לשנות אותה.",
+      "error": null,
+      "judge_comment": "5",
+      "sessions": [],
+      "tools": [
+        "create_task",
+        "propose_schedule"
+      ]
+    },
+    {
+      "id": "conflict_two_tasks",
+      "category": "conflicts",
+      "scores": {
+        "interrupt": 1,
+        "capacity_conflict": 1,
+        "no_write_before_approval": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "ההצעה לשבץ את שתי המשימות נדחתה. איך תרצי שאשנה את השיבוץ?",
+      "error": null,
+      "judge_comment": "5",
+      "sessions": [],
+      "tools": [
+        "propose_schedule"
+      ]
+    },
+    {
+      "id": "extract_exam_week",
+      "category": "extraction",
+      "scores": {
+        "task": 1,
+        "interrupt": 1,
+        "sessions_valid": 1,
+        "reply_dates_grounded": 1,
+        "no_write_before_approval": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "יצרתי משימת לימוד למבחן וקבעתי לה 20 שעות. הנחתי שלא ציינת מקצוע, ולכן קראתי לה ״מבחן״.\n\nהמפגשים נקבעו ל־29 בנובמבר עד 2 בדצמבר. ב־29 בנובמבר, 30 בנובמבר ו־1 בדצמבר תוכננו 6 שעות בכל יום — מלוא המכסה היומית שלך.",
+      "error": null,
+      "judge_comment": "5",
+      "sessions": [
+        [
+          "2026-11-29T14:30",
+          "16:30"
+        ],
+        [
+          "2026-11-29T17:00",
+          "19:00"
+        ],
+        [
+          "2026-11-29T19:30",
+          "21:30"
+        ],
+        [
+          "2026-11-30T09:00",
+          "11:00"
+        ],
+        [
+          "2026-11-30T12:30",
+          "14:30"
+        ],
+        [
+          "2026-11-30T15:30",
+          "17:30"
+        ],
+        [
+          "2026-12-01T09:00",
+          "11:00"
+        ],
+        [
+          "2026-12-01T11:30",
+          "13:30"
+        ],
+        [
+          "2026-12-01T14:00",
+          "16:00"
+        ],
+        [
+          "2026-12-02T16:00",
+          "18:00"
+        ]
+      ],
+      "tools": [
+        "create_task",
+        "propose_schedule"
+      ]
+    },
+    {
+      "id": "extract_hebrew_date",
+      "category": "extraction",
+      "scores": {
+        "task": 1,
+        "tool_used": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "יצרתי ושיבצתי את משימת ההגשה — 6 שעות עבודה, עד ט״ו בשבט תשפ״ז (23 בינואר 2027). הנחתי שחשיבותה בינונית ושמה „הגשה”.\n\nהשיבוצים:\n- היום, ראשון 29.11: 19:30–21:30\n- שני 30.11: 18:30–20:30\n- שלישי 1.12: 19:00–21:00",
+      "error": null,
+      "judge_comment": "5",
+      "sessions": [
+        [
+          "2026-11-29T19:30",
+          "21:30"
+        ],
+        [
+          "2026-11-30T18:30",
+          "20:30"
+        ],
+        [
+          "2026-12-01T19:00",
+          "21:00"
+        ]
+      ],
+      "tools": [
+        "resolve_hebrew_date",
+        "create_task",
+        "propose_schedule"
+      ]
+    },
+    {
+      "id": "extract_importance",
+      "category": "extraction",
+      "scores": {
+        "task": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 0.5
+      },
+      "final_reply": "יצרתי ושיבצתי 15 שעות הכנה למבחן במתמטיקה, שמועדו ב־4 בדצמבר. השיבוץ כולל 8 מפגשים: היום, 29 בנובמבר, מ־13:00 עד 21:30 (עם הפסקות); מחר, 30 בנובמבר, מ־10:00 עד 16:30; וב־1 בדצמבר, מ־08:00 עד 10:00 ומ־17:00 עד 19:00.\n\nהמערכת סימנה אזהרות עומס ליומיים הראשונים, אף שהציגה 330 דקות בכל אחד מהם מול מגבלה יומית של 360 דקות.",
+      "error": null,
+      "judge_comment": "3",
+      "sessions": [
+        [
+          "2026-11-29T13:00",
+          "15:00"
+        ],
+        [
+          "2026-11-29T16:00",
+          "17:30"
+        ],
+        [
+          "2026-11-29T19:30",
+          "21:30"
+        ],
+        [
+          "2026-11-30T10:00",
+          "12:00"
+        ],
+        [
+          "2026-11-30T12:30",
+          "14:30"
+        ],
+        [
+          "2026-11-30T15:00",
+          "16:30"
+        ],
+        [
+          "2026-12-01T08:00",
+          "10:00"
+        ],
+        [
+          "2026-12-01T17:00",
+          "19:00"
+        ]
+      ],
+      "tools": [
+        "create_task",
+        "propose_schedule"
+      ]
+    },
+    {
+      "id": "extract_next_thursday",
+      "category": "extraction",
+      "scores": {
+        "task": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "יצרתי ותזמנתי את העבודה בסטטיסטיקה ל־5 שעות, עם חשיבות ברירת מחדל 3 מתוך 5. זמני העבודה שנקבעו:\n\n- היום, ראשון 29.11: 20:00–22:00\n- שני 30.11: 15:30–17:30\n- שלישי 1.12: 14:00–15:00\n\nהעבודה מתוכננת להגשה עד תחילת יום חמישי, 3.12.",
+      "error": null,
+      "judge_comment": "5",
+      "sessions": [
+        [
+          "2026-11-29T20:00",
+          "22:00"
+        ],
+        [
+          "2026-11-30T15:30",
+          "17:30"
+        ],
+        [
+          "2026-12-01T14:00",
+          "15:00"
+        ]
+      ],
+      "tools": [
+        "create_task",
+        "propose_schedule"
+      ]
+    },
+    {
+      "id": "extract_open_call",
+      "category": "extraction",
+      "scores": {
+        "task": 1,
+        "interrupt": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "הוספתי לך משימה פתוחה: **להתקשר לסבתא**. לא הוגדר לה מועד.",
+      "error": null,
+      "judge_comment": "5",
+      "sessions": [],
+      "tools": [
+        "create_task"
+      ]
+    },
+    {
+      "id": "extract_open_notebook",
+      "category": "extraction",
+      "scores": {
+        "task": 1,
+        "interrupt": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "הוספתי את „לקנות מחברת” כמשימה פתוחה ללא תאריך יעד, בחשיבות ברירת מחדל.",
+      "error": null,
+      "judge_comment": "5",
+      "sessions": [],
+      "tools": [
+        "create_task"
+      ]
+    },
+    {
+      "id": "extract_project_ten_days",
+      "category": "extraction",
+      "scores": {
+        "task": 1,
+        "interrupt": 1,
+        "sessions_valid": 1,
+        "reply_dates_grounded": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "יצרתי ותזמנתי את הפרויקט: 12 שעות עבודה בשישה מפגשים של שעתיים, ב־29 בנובמבר, 30 בנובמבר ו־1 בדצמבר. הנחתי שההגשה ב־9 בדצמבר 2026 ושם המשימה הוא „פרויקט להגשה”.",
+      "error": null,
+      "judge_comment": "5",
+      "sessions": [
+        [
+          "2026-11-29T13:00",
+          "15:00"
+        ],
+        [
+          "2026-11-29T17:00",
+          "19:00"
+        ],
+        [
+          "2026-11-30T10:00",
+          "12:00"
+        ],
+        [
+          "2026-11-30T12:30",
+          "14:30"
+        ],
+        [
+          "2026-12-01T11:00",
+          "13:00"
+        ],
+        [
+          "2026-12-01T16:00",
+          "18:00"
+        ]
+      ],
+      "tools": [
+        "create_task",
+        "propose_schedule"
+      ]
+    },
+    {
+      "id": "extract_tomorrow_exam",
+      "category": "extraction",
+      "scores": {
+        "task": 1,
+        "interrupt": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "קבעתי לך 3 שעות חזרה לתנ״ך להיום: 09:00–10:00 ו־20:00–22:00. בהצלחה במבחן מחר!",
+      "error": null,
+      "judge_comment": "5",
+      "sessions": [
+        [
+          "2026-11-29T09:00",
+          "10:00"
+        ],
+        [
+          "2026-11-29T20:00",
+          "22:00"
+        ]
+      ],
+      "tools": [
+        "create_task",
+        "propose_schedule"
+      ]
+    },
+    {
+      "id": "extract_weekly_quiz",
+      "category": "extraction",
+      "scores": {
+        "recurring_or_question": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "באיזו שעה הבוחן, וכמה זמן הוא נמשך? אם תרצי שאוסיף גם זמן הכנה לפניו, כתבי כמה דקות.",
+      "error": null,
+      "judge_comment": "5",
+      "sessions": [],
+      "tools": []
+    },
+    {
+      "id": "grounding_evenings_week",
+      "category": "grounding",
+      "scores": {
+        "interrupt": 1,
+        "sessions_window": 1,
+        "reply_dates_grounded": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "יצרתי משימה כללית בשם „מבחן” (חשיבות ברירת מחדל 3) ושיבצתי 10 שעות לימוד בערבים:\n\n- היום, ראשון 29.11: 17:00–19:00 ו־19:30–21:30\n- שני 30.11: 17:30–19:30 ו־20:00–22:00\n- שלישי 1.12: 18:00–20:00\n\nהשתמשתי בשעות הערב 17:00–22:00. אם תרצי, אפשר לעדכן את שם המשימה עם המקצוע.",
+      "error": null,
+      "judge_comment": "5",
+      "sessions": [
+        [
+          "2026-11-29T17:00",
+          "19:00"
+        ],
+        [
+          "2026-11-29T19:30",
+          "21:30"
+        ],
+        [
+          "2026-11-30T17:30",
+          "19:30"
+        ],
+        [
+          "2026-11-30T20:00",
+          "22:00"
+        ],
+        [
+          "2026-12-01T18:00",
+          "20:00"
+        ]
+      ],
+      "tools": [
+        "create_task",
+        "propose_schedule"
+      ]
+    },
+    {
+      "id": "grounding_until_when",
+      "category": "grounding",
+      "scores": {
+        "interrupt": 1,
+        "reply_dates_grounded": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "שיבצתי את העבודה באנגלית: היום, יום ראשון 29.11, בין 20:00 ל־22:00, ומחר, יום שני 30.11, בין 08:00 ל־10:00. לפי השיבוץ, תסיימי ביום שני.",
+      "error": null,
+      "judge_comment": "5",
+      "sessions": [
+        [
+          "2026-11-29T20:00",
+          "22:00"
+        ],
+        [
+          "2026-11-30T08:00",
+          "10:00"
+        ]
+      ],
+      "tools": [
+        "propose_schedule"
+      ]
+    },
+    {
+      "id": "grounding_which_days",
+      "category": "grounding",
+      "scores": {
+        "interrupt": 1,
+        "reply_dates_grounded": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "שיבצתי את כל 8 שעות הלמידה. הן יצאו בימים האלה:\n\n- ראשון, 29.11: 19:30–21:30\n- שני, 30.11: 10:30–12:30\n- שלישי, 1.12: 12:00–14:00\n- רביעי, 2.12: 11:30–13:30",
+      "error": null,
+      "judge_comment": "5",
+      "sessions": [
+        [
+          "2026-11-29T19:30",
+          "21:30"
+        ],
+        [
+          "2026-11-30T10:30",
+          "12:30"
+        ],
+        [
+          "2026-12-01T12:00",
+          "14:00"
+        ],
+        [
+          "2026-12-02T11:30",
+          "13:30"
+        ]
+      ],
+      "tools": [
+        "propose_schedule"
+      ]
+    },
+    {
+      "id": "manual_day_off",
+      "category": "manual_change",
+      "scores": {
+        "tool_used": 1,
+        "no_sessions_on": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "סימנתי את מחר, 30.11, כיום לא זמין, ועדכנתי את התוכנית. הועברו שני מפגשי לימוד, ובמקומם נקבעו שני מפגשים ביום שלישי, 1.12, בשעות 17:00–19:00 ו־19:30–21:30.",
+      "error": null,
+      "judge_comment": "5",
+      "sessions": [
+        [
+          "2026-11-29T17:30",
+          "19:30"
+        ],
+        [
+          "2026-11-29T20:00",
+          "22:00"
+        ],
+        [
+          "2026-12-01T17:00",
+          "19:00"
+        ],
+        [
+          "2026-12-01T19:30",
+          "21:30"
+        ]
+      ],
+      "tools": [
+        "add_date_exception",
+        "propose_schedule"
+      ]
+    },
+    {
+      "id": "manual_mornings_only",
+      "category": "manual_change",
+      "scores": {
+        "interrupt": 1,
+        "sessions_window": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 0.0
+      },
+      "final_reply": "העברתי את הלמידה להיסטוריה לבקרים בלבד, עד 12:00. נקבעו שני מפגשים: היום, ראשון 29.11, בין 09:30 ל־11:30, ומחר, שני 30.11, בין 09:00 ל־11:00.",
+      "error": null,
+      "judge_comment": "1",
+      "sessions": [
+        [
+          "2026-11-29T09:30",
+          "11:30"
+        ],
+        [
+          "2026-11-30T09:00",
+          "11:00"
+        ],
+        [
+          "2026-12-01T10:00",
+          "12:00"
+        ],
+        [
+          "2026-12-02T08:30",
+          "10:30"
+        ]
+      ],
+      "tools": [
+        "propose_reschedule"
+      ]
+    },
+    {
+      "id": "manual_move_to_tuesday",
+      "category": "manual_change",
+      "scores": {
+        "interrupt": 1,
+        "interrupt_kind": 1,
+        "sessions_on_date": 1,
+        "reply_dates_grounded": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "העברתי את כל הלמידה למבחן בביולוגיה ליום שלישי, 1.12: 10:30–12:30 ו־14:00–16:00.",
+      "error": null,
+      "judge_comment": "5",
+      "sessions": [
+        [
+          "2026-12-01T10:30",
+          "12:30"
+        ],
+        [
+          "2026-12-01T14:00",
+          "16:00"
+        ]
+      ],
+      "tools": [
+        "propose_reschedule"
+      ]
+    },
+    {
+      "id": "missing_everything",
+      "category": "missing_info",
+      "scores": {
+        "interrupt": 1,
+        "no_new_task": 1,
+        "asks_question": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "מתי המבחן, וכמה שעות תרצי להקדיש להכנה?",
+      "error": null,
+      "judge_comment": "5",
+      "sessions": [],
+      "tools": []
+    },
+    {
+      "id": "missing_hours",
+      "category": "missing_info",
+      "scores": {
+        "no_new_task": 1,
+        "asks_question": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "כמה שעות עבודה את מעריכה שיידרשו לפרויקט? אניח שהמועד להגשה הוא בעוד שבועיים — 13 בדצמבר.",
+      "error": null,
+      "judge_comment": "5",
+      "sessions": [],
+      "tools": []
+    },
+    {
+      "id": "missing_which_task",
+      "category": "missing_info",
+      "scores": {
+        "interrupt": 1,
+        "asks_question": 1,
+        "task_count_after": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "איזו משימה תרצי למחוק — „מבחן בהיסטוריה” או „עבודה באנגלית”?",
+      "error": null,
+      "judge_comment": "5",
+      "sessions": [],
+      "tools": []
+    },
+    {
+      "id": "out_of_scope",
+      "category": "scope",
+      "scores": {
+        "no_tools": 1,
+        "interrupt": 1,
+        "no_new_task": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "אני מתמקדת בניהול משימות ולוחות זמנים, ולכן לא יכולה לבדוק תחזית מזג אוויר. כדאי לבדוק באפליקציית מזג אוויר.",
+      "error": null,
+      "judge_comment": "5",
+      "sessions": [],
+      "tools": []
+    },
+    {
+      "id": "policy_deadline_needs_approval",
+      "category": "approval_policy",
+      "scores": {
+        "interrupt": 1,
+        "deadline_of": 1,
+        "interrupt_kind": 1,
+        "no_write_before_approval": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "עדכנתי את מועד המבחן בהיסטוריה ליומיים מאוחר יותר: שבת, 5 בדצמבר, בשעה 09:00. לא נדרשו שינויים במפגשי הלמידה.",
+      "error": null,
+      "judge_comment": "5",
+      "sessions": [
+        [
+          "2026-11-29T08:00",
+          "10:00"
+        ],
+        [
+          "2026-11-29T13:00",
+          "15:00"
+        ],
+        [
+          "2026-11-30T08:30",
+          "10:30"
+        ],
+        [
+          "2026-11-30T15:00",
+          "17:00"
+        ]
+      ],
+      "tools": [
+        "propose_deadline_change"
+      ]
+    },
+    {
+      "id": "policy_delete_needs_approval",
+      "category": "approval_policy",
+      "scores": {
+        "interrupt": 1,
+        "task_exists": 1,
+        "interrupt_kind": 1,
+        "no_write_before_approval": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "המחיקה לא אושרה, ולכן המבחן בהיסטוריה עדיין קיים. תרצי שאציע למחוק אותו שוב?",
+      "error": null,
+      "judge_comment": "5",
+      "sessions": [
+        [
+          "2026-11-29T20:00",
+          "22:00"
+        ],
+        [
+          "2026-11-30T17:00",
+          "19:00"
+        ],
+        [
+          "2026-12-01T17:00",
+          "19:00"
+        ],
+        [
+          "2026-12-02T20:00",
+          "22:00"
+        ]
+      ],
+      "tools": [
+        "find_tasks",
+        "propose_delete_task"
+      ]
+    },
+    {
+      "id": "policy_done_is_automatic",
+      "category": "approval_policy",
+      "scores": {
+        "interrupt": 1,
+        "task_status": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "סימנתי את „מבחן בהיסטוריה” כהושלם ושחררתי את זמני הלימוד העתידיים. בהצלחה במבחן!",
+      "error": null,
+      "judge_comment": "5",
+      "sessions": [],
+      "tools": [
+        "find_tasks",
+        "mark_task_done"
+      ]
+    },
+    {
+      "id": "policy_duration_needs_approval",
+      "category": "approval_policy",
+      "scores": {
+        "interrupt": 1,
+        "interrupt_kind": 1,
+        "no_write_before_approval": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "הוספתי 4 שעות להכנה למבחן בהיסטוריה. נקבעו שני מפגשים: היום, ראשון 29.11, בין 14:00 ל־16:00, ומחר, שני 30.11, בין 11:00 ל־13:00.",
+      "error": null,
+      "judge_comment": "5",
+      "sessions": [
+        [
+          "2026-11-29T14:00",
+          "16:00"
+        ],
+        [
+          "2026-11-29T17:30",
+          "19:30"
+        ],
+        [
+          "2026-11-30T11:00",
+          "13:00"
+        ],
+        [
+          "2026-11-30T16:00",
+          "18:00"
+        ],
+        [
+          "2026-12-01T17:00",
+          "19:00"
+        ],
+        [
+          "2026-12-02T08:30",
+          "10:30"
+        ]
+      ],
+      "tools": [
+        "propose_duration_change"
+      ]
+    },
+    {
+      "id": "policy_progress_is_automatic",
+      "category": "approval_policy",
+      "scores": {
+        "interrupt": 1,
+        "task_status": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "רשמתי שעבדת שעתיים על ההיסטוריה. נשארו לך 6 שעות לימוד.",
+      "error": null,
+      "judge_comment": "5",
+      "sessions": [
+        [
+          "2026-11-29T18:30",
+          "20:30"
+        ],
+        [
+          "2026-11-30T14:30",
+          "16:30"
+        ],
+        [
+          "2026-12-01T10:00",
+          "12:00"
+        ],
+        [
+          "2026-12-02T08:30",
+          "10:30"
+        ]
+      ],
+      "tools": [
+        "log_progress"
+      ]
+    },
+    {
+      "id": "policy_rename_is_automatic",
+      "category": "approval_policy",
+      "scores": {
+        "interrupt": 1,
+        "tool_used": 1,
+        "task_exists": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "שיניתי את שם המשימה ל״מבחן בהיסטוריה של עם ישראל״.",
+      "error": null,
+      "judge_comment": "5",
+      "sessions": [],
+      "tools": [
+        "find_tasks",
+        "update_task_details"
+      ]
+    },
+    {
+      "id": "query_free_time",
+      "category": "scheduling",
+      "scores": {
+        "interrupt": 1,
+        "tool_used_any": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "ביום שלישי, 1 בדצמבר, את פנויה בין 08:00 ל־22:00. זאת לפי לוח הזמנים וההגבלות שהוגדרו.",
+      "error": null,
+      "judge_comment": "5",
+      "sessions": [],
+      "tools": [
+        "check_availability"
+      ]
+    },
+    {
+      "id": "query_tomorrow",
+      "category": "scheduling",
+      "scores": {
+        "interrupt": 1,
+        "tool_used_any": 1,
+        "reply_mentions_session_times": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "מחר, יום שני 30.11, מתוכננות לך שתי פגישות לימוד למבחן בהיסטוריה: 16:00–18:00 ו־20:00–22:00.",
+      "error": null,
+      "judge_comment": "5",
+      "sessions": [
+        [
+          "2026-11-29T17:30",
+          "19:30"
+        ],
+        [
+          "2026-11-29T20:00",
+          "22:00"
+        ],
+        [
+          "2026-11-30T16:00",
+          "18:00"
+        ],
+        [
+          "2026-11-30T20:00",
+          "22:00"
+        ]
+      ],
+      "tools": [
+        "get_schedule"
+      ]
+    },
+    {
+      "id": "schedule_evenings_only",
+      "category": "scheduling",
+      "scores": {
+        "interrupt": 1,
+        "sessions_valid": 1,
+        "sessions_window": 1,
+        "reply_dates_grounded": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "יצרתי את המשימה „לימוד למבחן” ושיבצתי 8 שעות בערבים:\n\n- היום, ראשון 29.11, 20:00–22:00\n- שני 30.11, 18:30–20:30\n- שלישי 1.12, 20:00–22:00\n- רביעי 2.12, 18:00–20:00\n\nהנחתי חשיבות ברירת מחדל ונושא כללי, כי לא ציינת אותם.",
+      "error": null,
+      "judge_comment": "5",
+      "sessions": [
+        [
+          "2026-11-29T20:00",
+          "22:00"
+        ],
+        [
+          "2026-11-30T18:30",
+          "20:30"
+        ],
+        [
+          "2026-12-01T20:00",
+          "22:00"
+        ],
+        [
+          "2026-12-02T18:00",
+          "20:00"
+        ]
+      ],
+      "tools": [
+        "create_task",
+        "propose_schedule"
+      ]
+    },
+    {
+      "id": "schedule_existing_task",
+      "category": "scheduling",
+      "scores": {
+        "interrupt": 1,
+        "sessions_valid": 1,
+        "planned_minutes_of": 1,
+        "reply_dates_grounded": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "שיבצתי לך 8 שעות לימוד להיסטוריה:\n\n- היום, ראשון 29.11: 10:30–12:30 ו־18:30–20:30\n- מחר, שני 30.11: 10:00–12:00 ו־14:30–16:30",
+      "error": null,
+      "judge_comment": "5",
+      "sessions": [
+        [
+          "2026-11-29T10:30",
+          "12:30"
+        ],
+        [
+          "2026-11-29T18:30",
+          "20:30"
+        ],
+        [
+          "2026-11-30T10:00",
+          "12:00"
+        ],
+        [
+          "2026-11-30T14:30",
+          "16:30"
+        ]
+      ],
+      "tools": [
+        "propose_schedule"
+      ]
+    },
+    {
+      "id": "schedule_respects_classes",
+      "category": "scheduling",
+      "scores": {
+        "interrupt": 1,
+        "sessions_valid": 1,
+        "sessions_avoid_rules": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "שיבצתי 8 שעות למידה בהיסטוריה בארבעה מפגשים:\n\n- היום, ראשון 29.11: 19:30–21:30\n- שני 30.11: 19:00–21:00\n- שלישי 1.12: 19:00–21:00\n- רביעי 2.12: 20:00–22:00",
+      "error": null,
+      "judge_comment": "5",
+      "sessions": [
+        [
+          "2026-11-29T19:30",
+          "21:30"
+        ],
+        [
+          "2026-11-30T19:00",
+          "21:00"
+        ],
+        [
+          "2026-12-01T19:00",
+          "21:00"
+        ],
+        [
+          "2026-12-02T20:00",
+          "22:00"
+        ]
+      ],
+      "tools": [
+        "propose_schedule"
+      ]
+    }
+  ]
+}

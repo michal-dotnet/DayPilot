@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Rubik", "Segoe UI", "Arial", system-ui, sans-serif;
+  --color-brand-50: #eef2ff;
+  --color-brand-100: #e0e7ff;
+  --color-brand-500: #6366f1;
+  --color-brand-600: #4f46e5;
+  --color-brand-700: #4338ca;
+}
+
+body {
+  @apply bg-slate-50 text-slate-800 antialiased;
+  font-family: var(--font-sans);
+}
+
+/* רכיבי עיצוב חוזרים (Tailwind v4: @utility מאפשר להשתמש בהם גם ב-@apply) */
+@utility card {
+  @apply rounded-2xl bg-white shadow-sm ring-1 ring-slate-200/70 p-5;
+}
+@utility btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2 text-sm font-medium transition
+    disabled:opacity-50 disabled:cursor-not-allowed;
+}
+@utility btn-primary {
+  @apply btn bg-brand-600 text-white hover:bg-brand-700 shadow-sm;
+}
+@utility btn-ghost {
+  @apply btn bg-white text-slate-700 ring-1 ring-slate-200 hover:bg-slate-50;
+}
+@utility btn-danger {
+  @apply btn bg-rose-50 text-rose-700 ring-1 ring-rose-200 hover:bg-rose-100;
+}
+@utility input {
+  @apply w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm outline-none
+    focus:border-brand-500 focus:ring-2 focus:ring-brand-100;
+}
+
+.fade-in {
+  animation: fade-in 0.25s ease-out;
+}
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* FullCalendar: התאמה לעיצוב */
+.fc {
+  --fc-border-color: #e2e8f0;
+  --fc-today-bg-color: #eef2ff;
+  --fc-button-bg-color: #ffffff;
+  --fc-button-text-color: #334155;
+  --fc-button-border-color: #e2e8f0;
+  --fc-button-hover-bg-color: #f1f5f9;
+  --fc-button-hover-border-color: #cbd5e1;
+  --fc-button-active-bg-color: #4f46e5;
+  --fc-button-active-border-color: #4f46e5;
+  font-size: 0.85rem;
+}
+.fc .fc-toolbar-title { font-size: 1.1rem; font-weight: 600; }
+.fc .fc-button { border-radius: 0.75rem; box-shadow: none !important; }
+.fc .fc-button-active { color: #fff !important; }
+.fc .fc-event { border-radius: 0.5rem; padding: 1px 3px; }
+.fc .fc-bg-event { opacity: 1; }
+.fc .block-rest { background: repeating-linear-gradient(45deg, #ede9fe, #ede9fe 6px, #f5f3ff 6px, #f5f3ff 12px); }
+.fc .block-busy { background: #f1f5f9; }
+.fc .block-event { background: #fef3c7; }
+.fc .fc-bg-event .fc-event-title { color: #64748b; font-style: normal; font-size: 0.72rem; margin: 2px; }

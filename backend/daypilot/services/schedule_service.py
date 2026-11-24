@@ -27,6 +27,7 @@ from daypilot.domain.enums import (
     ProposalStatus,
     SessionStatus,
     TaskType,
+    WorkStyle,
 )
 from daypilot.domain.intervals import Interval, normalize, subtract, total_minutes
 from daypilot.domain.schemas import (
@@ -80,12 +81,14 @@ class TaskSnapshot:
     occurrence_time: time | None
     occurrence_minutes: int | None
     prep_minutes: int | None
+    work_style: WorkStyle = WorkStyle.ASSIGNMENT
 
     @classmethod
     def of(cls, t: Task) -> TaskSnapshot:
         return cls(
             t.id, t.title, t.task_type, t.importance, t.deadline, t.remaining_minutes, t.recurrence_rule,
             t.recurrence_start, t.recurrence_end, t.occurrence_time, t.occurrence_minutes, t.prep_minutes,
+            WorkStyle(t.work_style or WorkStyle.ASSIGNMENT),
         )
 
 
@@ -159,7 +162,7 @@ class ScheduleService:
         payload = {
             "t": [
                 [t.id, t.status, t.updated_at.isoformat(), t.remaining_minutes, t.estimated_minutes, t.importance,
-                 t.deadline.isoformat() if t.deadline else None, t.recurrence_rule, t.prep_minutes]
+                 t.deadline.isoformat() if t.deadline else None, t.recurrence_rule, t.prep_minutes, t.work_style]
                 for t in tasks
             ],
             "s": [[s.id, s.start.isoformat(), s.end.isoformat(), s.status, s.locked] for s in sessions],
@@ -266,7 +269,8 @@ class ScheduleService:
                 continue
             id_map[t.id] = (t.id, None)
             sched.append(
-                SchedulableTask(t.id, t.title, need, min(t.deadline, horizon_end), t.importance, allowed=windows_for(t.id))
+                SchedulableTask(t.id, t.title, need, min(t.deadline, horizon_end), t.importance, allowed=windows_for(t.id),
+                                style=t.work_style)
             )
 
         snap_by_id = {t.id: t for t in ctx.tasks}

@@ -98,3 +98,62 @@ def test_short_remaining_allows_short_session():
     result = plan([SchedulableTask(1, "a", 30, deadline)], days(1))
     assert result.is_complete
     assert result.sessions[0].minutes == 30
+
+
+def _minutes_per_day(result):
+    per_day = {}
+    for s in result.sessions:
+        d = to_local(s.start, TZ).date()
+        per_day[d] = per_day.get(d, 0) + s.minutes
+    return per_day
+
+
+def test_assignment_goes_to_the_earliest_day_that_fits_it_whole():
+    # ש"ב של 5 שעות. ביום הראשון רק 3 שעות פנויות, בשני ובשלישי 8: הכל ביום השני
+    d0, d1, d2 = (START_DAY + timedelta(days=i) for i in range(3))
+    free = [Interval(L(d0, 18), L(d0, 21)), Interval(L(d1, 12), L(d1, 20)), Interval(L(d2, 12), L(d2, 20))]
+    deadline = L(START_DAY + timedelta(days=3), 0)
+    result = plan([SchedulableTask(1, "hw", 300, deadline)], free)
+    assert result.is_complete
+    assert _minutes_per_day(result) == {d1: 300}
+
+
+def test_large_assignment_uses_as_few_days_as_possible():
+    # 8 שעות, תקרה יומית 6: יומיים ולא יותר
+    deadline = L(START_DAY + timedelta(days=5), 0)
+    result = plan([SchedulableTask(1, "project", 8 * 60, deadline)], days(5))
+    assert result.is_complete
+    assert len(_minutes_per_day(result)) == 2
+
+
+def test_exam_study_ramps_up_to_a_full_day_before_the_exam():
+    # 10 שעות, 7 ימים: מתחילים בקטן, והיום שלפני המבחן מלא (תקרה 6 שעות)
+    deadline = L(START_DAY + timedelta(days=7), 0)
+    result = plan([SchedulableTask(1, "exam", 10 * 60, deadline, style="exam")], days(7))
+    assert result.is_complete
+    per_day = _minutes_per_day(result)
+    ordered = [per_day[d] for d in sorted(per_day)]
+    assert per_day[START_DAY + timedelta(days=6)] == 360
+    assert ordered == sorted(ordered)  # עולה בהדרגה
+    assert ordered[0] < 360
+    assert START_DAY not in per_day  # לא מתחילים מוקדם מדי
+
+
+def test_big_exam_gets_two_full_days():
+    deadline = L(START_DAY + timedelta(days=7), 0)
+    result = plan([SchedulableTask(1, "exam", 20 * 60, deadline, style="exam")], days(7))
+    assert result.is_complete
+    per_day = _minutes_per_day(result)
+    assert per_day[START_DAY + timedelta(days=6)] == 360
+    assert per_day[START_DAY + timedelta(days=5)] == 360
+
+
+def test_exam_ramp_targets_profile():
+    from daypilot.scheduling.engine import exam_ramp_targets
+
+    days_ = [f"d{i}" for i in range(7)]
+    cap = {d: 12 for d in days_}
+    assert list(exam_ramp_targets(days_, cap, 20, 12).values()) == [0, 0, 0, 0, 3, 5, 12]
+    assert list(exam_ramp_targets(days_, cap, 4, 12).values()) == [0, 0, 0, 0, 0, 0, 4]
+    blocked = dict(cap, d6=0)  # היום שלפני המבחן חסום (למשל שבת): היום המלא עובר ליום שלפניו
+    assert exam_ramp_targets(days_, blocked, 20, 12)["d5"] == 12

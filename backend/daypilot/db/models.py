@@ -22,6 +22,7 @@ from daypilot.domain.enums import (
     SessionStatus,
     TaskStatus,
     TaskType,
+    WorkStyle,
 )
 
 
@@ -109,6 +110,7 @@ class Task(Base):
     task_type: Mapped[TaskType] = mapped_column(String(20))
     status: Mapped[TaskStatus] = mapped_column(String(20), default=TaskStatus.ACTIVE)
     importance: Mapped[int] = mapped_column(Integer, default=3)  # 1-5
+    work_style: Mapped[WorkStyle] = mapped_column(String(20), default=WorkStyle.ASSIGNMENT, server_default="assignment")
 
     # משימה מתוזמנת
     deadline: Mapped[datetime | None] = mapped_column(UTCDateTime)

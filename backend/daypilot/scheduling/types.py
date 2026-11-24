@@ -22,6 +22,7 @@ class SchedulableTask:
     importance: int = 3  # 1-5
     earliest_start: datetime | None = None
     allowed: list[Interval] | None = None  # אם מוגדר: רק בחלונות האלה (שינוי ידני של תוכנית)
+    style: str = "assignment"  # assignment: מרוכז ומוקדם. exam: עולה בהדרגה עד ימים מלאים לפני המבחן
 
 
 @dataclass(frozen=True)

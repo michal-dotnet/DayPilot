@@ -13,7 +13,7 @@ from sqlalchemy.orm import Session
 
 from daypilot.db.models import ProgressLog, Task
 from daypilot.db.repositories.tasks import ProgressRepository, SessionRepository, TaskRepository
-from daypilot.domain.enums import SessionStatus, TaskStatus, TaskType
+from daypilot.domain.enums import SessionStatus, TaskStatus, TaskType, WorkStyle
 from daypilot.domain.schemas import ProgressReport, TaskCreate, TaskDetailsUpdate, TaskView
 from daypilot.services.errors import NotFoundError, ValidationError
 from daypilot.utils.clock import Clock
@@ -40,6 +40,7 @@ class TaskService:
             task_type=data.task_type,
             status=TaskStatus.ACTIVE,
             importance=data.importance,
+            work_style=data.work_style,
             deadline=data.deadline,
             estimated_minutes=data.estimated_minutes,
             remaining_minutes=data.estimated_minutes,
@@ -80,6 +81,7 @@ class TaskService:
             task_type=task.task_type,
             status=task.status,
             importance=task.importance,
+            work_style=task.work_style or WorkStyle.ASSIGNMENT,
             deadline=task.deadline,
             estimated_minutes=task.estimated_minutes,
             remaining_minutes=task.remaining_minutes,

@@ -9,6 +9,13 @@ class TaskType(StrEnum):
     RECURRING = "recurring"  # חוזרת: יומית / שבועית / חודשית
 
 
+class WorkStyle(StrEnum):
+    """איך לפרוס את זמן העבודה של משימה מתוזמנת."""
+
+    ASSIGNMENT = "assignment"  # ש"ב, עבודה, פרויקט: מרוכז בכמה שפחות ימים, מוקדם ככל האפשר
+    EXAM = "exam"  # לימוד למבחן: מתחיל בקטן ועולה, ימים מלאים ממש לפני המבחן
+
+
 class TaskStatus(StrEnum):
     ACTIVE = "active"
     DONE = "done"

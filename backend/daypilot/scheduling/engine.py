@@ -14,7 +14,11 @@
 
 מטרה (מינימום):
 - חוסר: קנס גבוה מאוד, גדל עם חשיבות המשימה.
-- זמן לא מועדף, עבודה מאוחרת יותר באופק, ריבוי מפגשים קצרים, יום עמוס במיוחד.
+- פריסה לפי סוג המשימה:
+  * מטלה (ש"ב, עבודה, פרויקט): כמה שפחות ימים, ומבין אלה המוקדמים ביותר.
+  * מבחן: פרופיל עולה. יום מלא אחד לפני המבחן (או שניים כשיש הרבה חומר),
+    ולפניהם ימים שהעומס בהם עולה בהדרגה. סטייה מהפרופיל עולה בקנס.
+- זמן לא מועדף, ריבוי מפגשים קצרים, יום עמוס במיוחד.
 - הזזת מפגשים קיימים (יציבות התוכנית).
 """
 
@@ -38,6 +42,10 @@ W_DAY_INDEX = 1
 W_SESSION_START = 8
 W_MOVED_SLOT = 10
 W_PEAK_DAY = 4
+W_DAY_USED = 200  # מטלה: כל יום נוסף שבו עובדים עליה (ריכוז ביום אחד)
+W_RAMP = 12  # מבחן: לכל משבצת סטייה מהפרופיל העולה
+
+EXAM_TWO_FULL_DAYS_FACTOR = 2.5  # מעל פי 2.5 מתקרה יומית: שני ימים מלאים לפני המבחן
 
 
 class Scheduler(Protocol):
@@ -155,6 +163,35 @@ class CpSatScheduler:
             model.Add(load <= cap)
             day_loads.append(load)
 
+        # פריסה לפי סוג המשימה
+        layout_terms: list = []
+        concentrated: set[int] = set()
+        for t in tasks:
+            per_day: dict[str, list[cp_model.IntVar]] = defaultdict(list)
+            for s in eligible[t.id]:
+                per_day[s.day_key].append(x[t.id, s.index])
+            if not per_day:
+                continue
+            if t.style == "exam":
+                capacity = {
+                    d: min(len(v), max(0, day_cap_slots - data.locked_minutes_by_day.get(d, 0) // slot_min))
+                    for d, v in per_day.items()
+                }
+                targets = exam_ramp_targets(sorted(per_day), capacity, required[t.id], day_cap_slots)
+                for d, vars_ in per_day.items():
+                    target = targets.get(d, 0)
+                    dev = model.NewIntVar(0, max(len(vars_), target), f"dev_{t.id}_{d}")
+                    model.Add(dev >= sum(vars_) - target)
+                    model.Add(dev >= target - sum(vars_))
+                    layout_terms.append(W_RAMP * dev)
+            else:
+                concentrated.add(t.id)
+                for d, vars_ in per_day.items():
+                    used = model.NewBoolVar(f"used_{t.id}_{d}")
+                    for v in vars_:
+                        model.AddImplication(v, used)
+                    layout_terms.append(W_DAY_USED * used)
+
         # יציבות: משבצות שבהן המשימה כבר הייתה משובצת
         previously: set[tuple[int, int]] = set()
         for ps in data.previous_sessions:
@@ -170,13 +207,14 @@ class CpSatScheduler:
             terms.append(weight * short[t.id])
         for (tid, sidx), var in x.items():
             s = slot_by_index[sidx]
-            cost = W_DAY_INDEX * s.day_index
+            cost = W_DAY_INDEX * s.day_index if tid in concentrated else 0  # מטלה: מוקדם ככל האפשר
             if not s.preferred:
                 cost += W_NOT_PREFERRED
             if (tid, sidx) in previously:
                 cost -= W_MOVED_SLOT
             if cost:
                 terms.append(cost * var)
+        terms.extend(layout_terms)
         for b in starts.values():
             terms.append(W_SESSION_START * b)
         if day_loads:
@@ -218,6 +256,62 @@ class CpSatScheduler:
             moved_minutes=moved,
             solve_seconds=elapsed,
         )
+
+
+def exam_ramp_targets(days: list[str], capacity: dict[str, int], required: int, full_day: int) -> dict[str, int]:
+    """
+    כמה משבצות ללמוד בכל יום לפני מבחן.
+
+    days: הימים שאפשר לעבוד בהם, מהמוקדם למאוחר (היום האחרון הוא היום שלפני המבחן).
+    capacity: כמה משבצות אפשר לכל היותר בכל יום. full_day: התקרה היומית במשבצות.
+
+    1. ימים מלאים ממש לפני המבחן: אחד, או שניים כשהחומר גדול מפי 2.5 מהתקרה היומית.
+    2. היתרה בימים שלפניהם, במשקלות עולים 1, 2, 3...: מתחילים בקטן ומתגברים.
+       אורך העלייה: בערך פי 2 מהיתרה חלקי יום מלא (ממוצע של חצי יום).
+    3. מה שלא נכנס ביום מסוים עובר ליום שלפניו.
+    """
+    targets = {d: 0 for d in days}
+    if not days or required <= 0 or full_day <= 0:
+        return targets
+    latest_first = list(reversed(days))
+    left = required
+    full_days = 2 if required > EXAM_TWO_FULL_DAYS_FACTOR * full_day else 1
+    i = 0
+    while i < len(latest_first) and full_days > 0 and left > 0:
+        d = latest_first[i]
+        if capacity.get(d, 0) > 0:
+            take = min(capacity[d], left)
+            targets[d] = take
+            left -= take
+            full_days -= 1
+        i += 1
+    if left <= 0:
+        return targets
+
+    rest = [d for d in latest_first[i:] if capacity.get(d, 0) > 0]  # מהמאוחר למוקדם
+    if not rest:
+        return targets
+    ramp_len = min(len(rest), max(1, math.ceil(2 * left / full_day)))
+    ramp = list(reversed(rest[:ramp_len]))  # מהמוקדם למאוחר
+    weights = range(1, ramp_len + 1)
+    total = sum(weights)
+    desired = [left * w / total for w in weights]
+    ints = [math.floor(v) for v in desired]
+    for k in sorted(range(ramp_len), key=lambda k: desired[k] - ints[k], reverse=True)[: left - sum(ints)]:
+        ints[k] += 1
+
+    spill = 0
+    for d, want in zip(reversed(ramp), reversed(ints)):  # מהמאוחר למוקדם, עודף עובר אחורה
+        take = min(capacity[d], want + spill)
+        targets[d] = take
+        spill = want + spill - take
+    for d in rest[ramp_len:]:
+        if spill <= 0:
+            break
+        take = min(capacity[d], spill)
+        targets[d] = take
+        spill -= take
+    return targets
 
 
 def _collect_sessions(solver, x, slot_by_index, tasks) -> list[PlannedSession]:

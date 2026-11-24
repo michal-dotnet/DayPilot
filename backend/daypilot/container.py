@@ -23,6 +23,7 @@ from daypilot.services.conversation_service import ConversationService
 from daypilot.services.schedule_service import RestTimeProvider, ScheduleService
 from daypilot.services.settings_service import SettingsService
 from daypilot.services.task_service import TaskService
+from daypilot.services.views_service import ViewsService
 from daypilot.utils.clock import Clock, SystemClock
 from daypilot.utils.tls import use_system_certificates
 
@@ -34,6 +35,7 @@ class Services:
     schedule: ScheduleService
     settings: SettingsService
     conversations: ConversationService
+    views: ViewsService
 
 
 class AppContainer:
@@ -76,6 +78,7 @@ class AppContainer:
             ),
             settings=SettingsService(session, self.clock),
             conversations=ConversationService(session, self.clock),
+            views=ViewsService(session, self.clock, self.rest_provider_for),
         )
 
     @contextmanager
