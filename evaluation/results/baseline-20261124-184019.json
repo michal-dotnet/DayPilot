@@ -1,0 +1,548 @@
+{
+  "name": "baseline",
+  "experiment": "baseline-v1-e3bcd83a",
+  "prompt_version": "v1",
+  "model": "gpt-6-luna",
+  "ran_at": "2026-11-24T18:40:19",
+  "scenarios": 31,
+  "scenarios_all_passed": 30,
+  "per_check_pass_rate": {
+    "asks_question": 1.0,
+    "capacity_conflict": 1.0,
+    "deadline_of": 1.0,
+    "interrupt": 0.958,
+    "interrupt_kind": 1.0,
+    "new_task_count": 1.0,
+    "no_new_task": 1.0,
+    "no_sessions_on": 1.0,
+    "no_tools": 1.0,
+    "no_write_before_approval": 1.0,
+    "planned_minutes_of": 1.0,
+    "recurring_or_question": 1.0,
+    "reply_dates_grounded": 1.0,
+    "reply_mentions_session_times": 1.0,
+    "sessions_avoid_rules": 1.0,
+    "sessions_on_date": 1.0,
+    "sessions_valid": 0.833,
+    "sessions_window": 0.5,
+    "task": 1.0,
+    "task_count_after": 1.0,
+    "task_exists": 1.0,
+    "task_status": 1.0,
+    "tool_used": 1.0,
+    "tool_used_any": 1.0
+  },
+  "per_category_pass_rate": {
+    "approval_policy": 1.0,
+    "complex": 1.0,
+    "conflicts": 1.0,
+    "extraction": 1.0,
+    "manual_change": 1.0,
+    "missing_info": 1.0,
+    "scheduling": 0.8,
+    "scope": 1.0
+  },
+  "reply_quality_avg": 0.839,
+  "tokens": {
+    "input_tokens": 197632,
+    "output_tokens": 13615
+  },
+  "estimated_cost_usd": 0.0266,
+  "rows": [
+    {
+      "id": "complex_progress_and_move",
+      "category": "complex",
+      "scores": {
+        "interrupt": 1,
+        "task_status": 1,
+        "sessions_on_date": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 0.75
+      },
+      "final_reply": "רשמתי שעה של למידה. נותרו 420 דקות; העברתי 360 דקות ליום רביעי, ו־60 דקות נשארו ללא מועד כי הגעת לתקרה היומית. אפשר להעלות את התקרה ל־8 שעות כדי לשבץ גם אותן.",
+      "error": null,
+      "tools": [
+        "log_progress",
+        "check_availability",
+        "propose_reschedule"
+      ]
+    },
+    {
+      "id": "complex_two_new_tasks",
+      "category": "complex",
+      "scores": {
+        "interrupt": 1,
+        "new_task_count": 1,
+        "sessions_valid": 1,
+        "reply_dates_grounded": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "שיבצתי את כל 16 השעות: 10 שעות להכנה למבחן עד 6 בדצמבר, ו־6 שעות לפרויקט עד 9 בדצמבר. ב־29 וב־30 בנובמבר תוכננו 6 שעות בכל יום — תקרת העבודה היומית שלך. לשתי המשימות קבעתי חשיבות ברירת מחדל של 3 מתוך 5.",
+      "error": null,
+      "tools": [
+        "create_task",
+        "create_task",
+        "propose_schedule"
+      ]
+    },
+    {
+      "id": "conflict_not_enough_time",
+      "category": "conflicts",
+      "scores": {
+        "capacity_conflict": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "יצרתי את המשימה עם חשיבות 4 כברירת מחדל, אבל הצעת השיבוץ לא אושרה ולכן לא נקבעו שעות לימוד. רוצה שאציע שיבוץ מחדש?",
+      "error": null,
+      "tools": [
+        "create_task",
+        "propose_schedule"
+      ]
+    },
+    {
+      "id": "conflict_two_tasks",
+      "category": "conflicts",
+      "scores": {
+        "interrupt": 1,
+        "capacity_conflict": 1,
+        "no_write_before_approval": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 0.5
+      },
+      "final_reply": "השיבוץ לא אושר. איך תרצה להתקדם — לשנות את חלונות הזמן או את היקף הלמידה לכל משימה?",
+      "error": null,
+      "tools": [
+        "propose_schedule"
+      ]
+    },
+    {
+      "id": "extract_exam_week",
+      "category": "extraction",
+      "scores": {
+        "task": 1,
+        "interrupt": 1,
+        "sessions_valid": 1,
+        "reply_dates_grounded": 1,
+        "no_write_before_approval": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "נוצרה משימת **„לימוד למבחן”** ושובצו עבורה 20 שעות ב־10 מפגשים, עד 6 בדצמבר. בשלושה ימים התכנון מגיע למכסה היומית המלאה שלך — 360 דקות. בחרתי כותרת כללית כי לא ציינת את מקצוע המבחן.",
+      "error": null,
+      "tools": [
+        "create_task",
+        "propose_schedule"
+      ]
+    },
+    {
+      "id": "extract_hebrew_date",
+      "category": "extraction",
+      "scores": {
+        "task": 1,
+        "tool_used": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "נרשמה הגשה ל־ט״ו בשבט, 23 בינואר 2027, עם 6 שעות עבודה. תכננתי עבורה 3 מפגשי עבודה ביומן. הנחתי חשיבות רגילה (3 מתוך 5).",
+      "error": null,
+      "tools": [
+        "resolve_hebrew_date",
+        "create_task",
+        "propose_schedule"
+      ]
+    },
+    {
+      "id": "extract_importance",
+      "category": "extraction",
+      "scores": {
+        "task": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 0.75
+      },
+      "final_reply": "יצרתי את המשימה **„מבחן במתמטיקה”** בחשיבות גבוהה מאוד ותכננתי עבורך 15 שעות הכנה ב־8 מפגשים עד המבחן ב־4 בדצמבר.",
+      "error": null,
+      "tools": [
+        "create_task",
+        "propose_schedule"
+      ]
+    },
+    {
+      "id": "extract_next_thursday",
+      "category": "extraction",
+      "scores": {
+        "task": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "נוצרה העבודה בסטטיסטיקה: כ־5 שעות, להגשה ביום חמישי, 3 בדצמבר. שיבצתי לה 3 מפגשי עבודה ביומן. הנחתי חשיבות ברירת מחדל של 3 מתוך 5.",
+      "error": null,
+      "tools": [
+        "create_task",
+        "propose_schedule"
+      ]
+    },
+    {
+      "id": "extract_open_call",
+      "category": "extraction",
+      "scores": {
+        "task": 1,
+        "interrupt": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "הוספתי תזכורת פתוחה: להתקשר לסבתא. לא קבעתי לה מועד.",
+      "error": null,
+      "tools": [
+        "create_task"
+      ]
+    },
+    {
+      "id": "extract_open_notebook",
+      "category": "extraction",
+      "scores": {
+        "task": 1,
+        "interrupt": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "הוספתי תזכורת פתוחה לקנות מחברת, בלי מועד מוגדר.",
+      "error": null,
+      "tools": [
+        "create_task"
+      ]
+    },
+    {
+      "id": "extract_project_ten_days",
+      "category": "extraction",
+      "scores": {
+        "task": 1,
+        "interrupt": 1,
+        "sessions_valid": 1,
+        "reply_dates_grounded": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "יצרתי את המשימה **„פרויקט להגשה”** וקבעתי לה 12 שעות עבודה עד 9 בדצמבר. השעות חולקו ל־6 מפגשים ביומן. הנחתי חשיבות ברירת מחדל של 3 מתוך 5.",
+      "error": null,
+      "tools": [
+        "create_task",
+        "propose_schedule"
+      ]
+    },
+    {
+      "id": "extract_tomorrow_exam",
+      "category": "extraction",
+      "scores": {
+        "task": 1,
+        "interrupt": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 0.0
+      },
+      "final_reply": "קבעתי 3 שעות חזרה להיום, לקראת המבחן מחר:\n- 12:00–13:00\n- 20:00–22:00\n\nהנחתי חשיבות רגילה. אם תרצי, אפשר לשנות את החלוקה.",
+      "error": null,
+      "tools": [
+        "create_task",
+        "propose_schedule",
+        "get_schedule"
+      ]
+    },
+    {
+      "id": "extract_weekly_quiz",
+      "category": "extraction",
+      "scores": {
+        "recurring_or_question": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "באיזו שעה הבוחן, כמה זמן הוא נמשך, והאם לתכנן גם זמן הכנה לפניו?",
+      "error": null,
+      "tools": []
+    },
+    {
+      "id": "manual_day_off",
+      "category": "manual_change",
+      "scores": {
+        "tool_used": 1,
+        "no_sessions_on": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "סימנתי את מחר כיום לא פנוי ועדכנתי את התוכנית למבחן בהיסטוריה בהתאם. הועברו שני מפגשים, בהיקף כולל של 4 שעות; אין התנגשויות.",
+      "error": null,
+      "tools": [
+        "add_date_exception",
+        "propose_schedule"
+      ]
+    },
+    {
+      "id": "manual_mornings_only",
+      "category": "manual_change",
+      "scores": {
+        "interrupt": 1,
+        "sessions_window": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "העברתי את כל 8 שעות הלמידה להיסטוריה לבקרים, עד 12:00. השינוי בוצע ללא התנגשויות.",
+      "error": null,
+      "tools": [
+        "get_settings",
+        "get_schedule",
+        "propose_reschedule"
+      ]
+    },
+    {
+      "id": "manual_move_to_tuesday",
+      "category": "manual_change",
+      "scores": {
+        "interrupt": 1,
+        "interrupt_kind": 1,
+        "sessions_on_date": 1,
+        "reply_dates_grounded": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "העברתי את כל 240 דקות הלמידה למבחן בביולוגיה ליום שלישי. נקבעו שני מפגשי לימוד, ללא התנגשויות.",
+      "error": null,
+      "tools": [
+        "get_settings",
+        "check_availability",
+        "get_schedule",
+        "propose_reschedule"
+      ]
+    },
+    {
+      "id": "missing_everything",
+      "category": "missing_info",
+      "scores": {
+        "interrupt": 1,
+        "no_new_task": 1,
+        "asks_question": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "מתי המבחן, וכמה זמן לימוד תרצה להקדיש אליו?",
+      "error": null,
+      "tools": []
+    },
+    {
+      "id": "missing_hours",
+      "category": "missing_info",
+      "scores": {
+        "no_new_task": 1,
+        "asks_question": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 0.0
+      },
+      "final_reply": "כמה שעות עבודה בערך צריך לפרויקט? אקבע את מועד ההגשה בעוד שבועיים, ב־13 בדצמבר.",
+      "error": null,
+      "tools": []
+    },
+    {
+      "id": "missing_which_task",
+      "category": "missing_info",
+      "scores": {
+        "interrupt": 1,
+        "asks_question": 1,
+        "task_count_after": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "איזו משימה למחוק — „מבחן בהיסטוריה” או „עבודה באנגלית”?",
+      "error": null,
+      "tools": []
+    },
+    {
+      "id": "out_of_scope",
+      "category": "scope",
+      "scores": {
+        "no_tools": 1,
+        "interrupt": 1,
+        "no_new_task": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "אני מתמחה בניהול משימות ותכנון זמן, ולא מספק תחזית מזג אוויר.",
+      "error": null,
+      "tools": []
+    },
+    {
+      "id": "policy_deadline_needs_approval",
+      "category": "approval_policy",
+      "scores": {
+        "interrupt": 1,
+        "deadline_of": 1,
+        "interrupt_kind": 1,
+        "no_write_before_approval": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 0.75
+      },
+      "final_reply": "המועד עודכן: המבחן בהיסטוריה נדחה ל־5 בדצמבר בשעה 09:00. בשבת, כ״ה בכסלו.",
+      "error": null,
+      "tools": [
+        "propose_deadline_change"
+      ]
+    },
+    {
+      "id": "policy_delete_needs_approval",
+      "category": "approval_policy",
+      "scores": {
+        "interrupt": 1,
+        "task_exists": 1,
+        "interrupt_kind": 1,
+        "no_write_before_approval": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 0.5
+      },
+      "final_reply": "המחיקה לא בוצעה — הבקשה נדחתה. אם תרצה, אפשר לנסות שוב.",
+      "error": null,
+      "tools": [
+        "propose_delete_task"
+      ]
+    },
+    {
+      "id": "policy_done_is_automatic",
+      "category": "approval_policy",
+      "scores": {
+        "interrupt": 1,
+        "task_status": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "סימנתי את משימת הלמידה למבחן בהיסטוריה כהושלמה ושחררתי את זמן הלמידה שתוכנן. בהצלחה במבחן!",
+      "error": null,
+      "tools": [
+        "find_tasks",
+        "mark_task_done"
+      ]
+    },
+    {
+      "id": "policy_duration_needs_approval",
+      "category": "approval_policy",
+      "scores": {
+        "interrupt": 1,
+        "interrupt_kind": 1,
+        "no_write_before_approval": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "הוספתי 4 שעות להכנה למבחן בהיסטוריה. הסך הכולל כעת הוא 12 שעות, ונוספו שני מפגשי לימוד.",
+      "error": null,
+      "tools": [
+        "propose_duration_change"
+      ]
+    },
+    {
+      "id": "policy_progress_is_automatic",
+      "category": "approval_policy",
+      "scores": {
+        "interrupt": 1,
+        "task_status": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "רשמתי שעתיים עבודה על ההיסטוריה. נשארו לך 6 שעות עבודה למשימה.",
+      "error": null,
+      "tools": [
+        "log_progress"
+      ]
+    },
+    {
+      "id": "policy_rename_is_automatic",
+      "category": "approval_policy",
+      "scores": {
+        "interrupt": 1,
+        "tool_used": 1,
+        "task_exists": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "עודכן השם ל״מבחן בהיסטוריה של עם ישראל״.",
+      "error": null,
+      "tools": [
+        "update_task_details"
+      ]
+    },
+    {
+      "id": "query_free_time",
+      "category": "scheduling",
+      "scores": {
+        "interrupt": 1,
+        "tool_used_any": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 0.0
+      },
+      "final_reply": "ביום שלישי, 1 בדצמבר, את פנויה בין 08:00 ל־22:00. מדובר ב־14 שעות פנויות.",
+      "error": null,
+      "tools": [
+        "check_availability"
+      ]
+    },
+    {
+      "id": "query_tomorrow",
+      "category": "scheduling",
+      "scores": {
+        "interrupt": 1,
+        "tool_used_any": 1,
+        "reply_mentions_session_times": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "מחר, יום שני 30 בנובמבר, יש לך שני מפגשי לימוד להיסטוריה:\n- 16:00–18:00\n- 20:00–22:00",
+      "error": null,
+      "tools": [
+        "get_schedule"
+      ]
+    },
+    {
+      "id": "schedule_evenings_only",
+      "category": "scheduling",
+      "scores": {
+        "interrupt": 0,
+        "sessions_valid": 0,
+        "sessions_window": 0,
+        "reply_dates_grounded": 1,
+        "all_checks_passed": 0,
+        "reply_quality": 1.0
+      },
+      "final_reply": "על איזה מקצוע/משימה המבחן, ובאילו שעות בערב את יכולה ללמוד? למשל 18:00–22:00.",
+      "error": null,
+      "tools": []
+    },
+    {
+      "id": "schedule_existing_task",
+      "category": "scheduling",
+      "scores": {
+        "interrupt": 1,
+        "sessions_valid": 1,
+        "planned_minutes_of": 1,
+        "reply_dates_grounded": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 0.75
+      },
+      "final_reply": "שיבצתי לך 4 מפגשי למידה להיסטוריה, בסך הכול 8 שעות.",
+      "error": null,
+      "tools": [
+        "propose_schedule"
+      ]
+    },
+    {
+      "id": "schedule_respects_classes",
+      "category": "scheduling",
+      "scores": {
+        "interrupt": 1,
+        "sessions_valid": 1,
+        "sessions_avoid_rules": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "שיבצתי 4 מפגשי למידה, בסך הכול 480 דקות, לקראת מבחן ההיסטוריה.",
+      "error": null,
+      "tools": [
+        "propose_schedule"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "name": "smoke",
+  "experiment": "smoke-v1-9e9ba6e5",
+  "prompt_version": "v1",
+  "model": "gpt-6-luna",
+  "ran_at": "2026-11-24T18:32:52",
+  "scenarios": 2,
+  "scenarios_all_passed": 2,
+  "per_check_pass_rate": {
+    "asks_question": 1.0,
+    "interrupt": 1.0,
+    "no_new_task": 1.0,
+    "task": 1.0
+  },
+  "per_category_pass_rate": {
+    "extraction": 1.0,
+    "missing_info": 1.0
+  },
+  "reply_quality_avg": 0.75,
+  "tokens": {
+    "input_tokens": 7690,
+    "output_tokens": 413
+  },
+  "estimated_cost_usd": 0.001,
+  "rows": [
+    {
+      "id": "extract_open_notebook",
+      "category": "extraction",
+      "scores": {
+        "task": 1,
+        "interrupt": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 0.5
+      },
+      "final_reply": "הוספתי לרשימת המשימות: **לקנות מחברת**. קבעתי חשיבות ברירת מחדל 3 מתוך 5.",
+      "error": null,
+      "tools": [
+        "create_task"
+      ]
+    },
+    {
+      "id": "missing_everything",
+      "category": "missing_info",
+      "scores": {
+        "interrupt": 1,
+        "no_new_task": 1,
+        "asks_question": 1,
+        "all_checks_passed": 1,
+        "reply_quality": 1.0
+      },
+      "final_reply": "באיזה מקצוע המבחן, מתי הוא מתקיים, וכמה שעות תרצה להקדיש ללמידה?",
+      "error": null,
+      "tools": []
+    }
+  ]
+}

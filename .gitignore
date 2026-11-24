@@ -1,0 +1,23 @@
+# סודות
+.env
+
+# סביבות Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# נתונים מקומיים (מסדי נתונים וגיבויים)
+data/*
+!data/.gitkeep
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+
+# מערכת הפעלה ועורכים
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
